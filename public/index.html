@@ -4,7 +4,7 @@
     <title>MetalitixLogger ThreeJS example</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <script src="https://cdn.metalitix.com/scripts/mtx-poll-three-js.js"></script>
+    <script src="https://cdn.metalitix.com/logger/three-js/latest/three-js.js"></script>
   </head>
   <body>
     <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
@@ -21,7 +21,7 @@
       import { createGUI } from './gui.mjs'
       import { createScene } from './scene.mjs';
 
-      /** 
+      /**
        * METALITIX INITIALIZATION
        * The code below initializes a Metalitix logger with custom settings:
        *  - Record data every half a second
@@ -55,7 +55,7 @@
       const KEYS = ['M', 'T', 'X']
       window.addEventListener('keydown', function(event) {
         if(!(event)) event = window.event
-        
+
         const key = event.key.toUpperCase()
         if(KEYS.includes(key)) {
           logger.logKeyDownEvent(event.pageX, event.pageY, {
