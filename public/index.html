@@ -24,16 +24,13 @@
       /**
        * METALITIX INITIALIZATION
        * The code below initializes a Metalitix logger with custom settings:
-       *  - Record data every half a second
        *  - Enable a random prompt asking the user their engagement level
        *  - Set the color theme of the prompt 'white'
        */
-      const metalitixLoggerApiKey = 'YOUR_API_KEY_CODE';
-      const optionalPollInterval = 500;
+      const metalitixLoggerApiKey = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
       const optionalShowSurvey = true;
       const optionalSurveyTheme = 'white';
       const logger = new MetalitixLogger(metalitixLoggerApiKey, {
-        pollInterval: optionalPollInterval,
         showSurvey: optionalShowSurvey,
         surveyTheme: optionalSurveyTheme,
       });
@@ -43,24 +40,26 @@
        * The code below tells Metalitix to begin recording behavior in the specified scene.
        */
       const gui = createGUI(logger)
-      const { camera } = createScene(gui)
-      logger.startSession(camera);
+      const { camera, teapot } = createScene(gui)
+      logger.startSession(camera, teapot)
+      logger.setAttribute("Did Press", false) // Set the default custom attribute value.
 
       /**
-       * METALITIX CUSTOM LOGGING
+       * METALITIX CUSTOM METRICS
        * The code below will record key presses of 'M', 'T', and 'X' to Metalitix.
-       * These presses will be recorded as a 'KeyDown' event with custom metrics.
-       * The custom metric will save '[M/T/X] Pressed' under 'custom-metric-cta'.
+       * - Initialized to `false` above, the session's attribute "Did Press" will change to `true`
+       * - The key 'M', 'T', or 'X' will record to the chart "Key Presses"
+       * - The number of times a key is pressed will accumulate and aggregate in the chart "Press Count"
        */
       const KEYS = ['M', 'T', 'X']
       window.addEventListener('keydown', function(event) {
         if(!(event)) event = window.event
-
+        
         const key = event.key.toUpperCase()
         if(KEYS.includes(key)) {
-          logger.logKeyDownEvent(event.pageX, event.pageY, {
-            'custom-metric-cta': `${key} Pressed`
-          })
+          logger.setAttribute("Did Press", true)
+          logger.logEvent("Key Presses", `${key} Pressed`)
+          logger.logState("Press Count", 1)
         }
       })
     </script>

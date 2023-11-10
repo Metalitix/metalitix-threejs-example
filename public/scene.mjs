@@ -5,7 +5,6 @@ import { TeapotGeometry } from '../node_modules/three/examples/jsm/geometries/Te
 
 export let camera, scene, renderer;
 let effectController;
-let cameraControls;
 const teapotSize = 100;
 let ambientLight, light;
 
@@ -25,7 +24,7 @@ let wireMaterial,
     normalMaterial,
     reflectiveMaterial;
 
-let teapot, textureCube;
+let textureCube;
 
 // allocate these just once
 const diffuseColor = new THREE.Color();
@@ -123,7 +122,9 @@ export function createScene(gui) {
   scene.add(ambientLight);
   scene.add(light);
 
-  return { camera, scene, renderer }
+  const teapot = createNewTeapot();
+
+  return { camera, teapot, scene, renderer }
 }
 
 // EVENT HANDLERS
@@ -159,8 +160,6 @@ function onLoop() {
     bNonBlinn = effectController.nonblinn;
     shading = effectController.newShading;
     vertexColors = effectController.vertexColors;
-
-    createNewTeapot();
   }
 
   // We're a bit lazy here. We could check to see if any material attributes changed and update
@@ -212,11 +211,6 @@ function onLoop() {
 
 // Whenever the teapot changes, the scene is rebuilt from scratch (not much to it).
 function createNewTeapot() {
-  if (teapot !== undefined) {
-    teapot.geometry.dispose();
-    scene.remove(teapot);
-  }
-
   const teapotGeometry = new TeapotGeometry(
       teapotSize,
       tess,
@@ -270,4 +264,5 @@ function createNewTeapot() {
   }
 
   scene.add(teapot);
+  return teapot
 }
