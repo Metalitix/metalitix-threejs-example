@@ -48,7 +48,7 @@ export function createScene(gui) {
 
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 20000);
   camera.position.set(35, 0, 360);
-  cameraControls = new OrbitControls(camera, renderer.domElement);
+  let cameraControls = new OrbitControls(camera, renderer.domElement);
 
   ambientLight = new THREE.AmbientLight(0x333333); // 0.2
   light = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -221,7 +221,7 @@ function createNewTeapot() {
       !effectController.nonblinn,
   );
 
-  teapot = new THREE.Mesh(
+  const teapot = new THREE.Mesh(
       teapotGeometry,
       shading === 'wireframe'
           ? wireMaterial
